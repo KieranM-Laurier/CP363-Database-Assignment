@@ -1,11 +1,13 @@
-v0.001 - changes
-changed Medicine_Price to float from INT type
-updated all VARCHAR(50) to VARCHAR(50)
-changed all relevant text like notes and descriptions to VARCHAR(1000) from VARCHAR(50)
-changed Patient_Sex  VARCHAR() to char(1) 
-all data types have been updated to be caps to match example
-Patient_Phone changed NOT NULL to DEFAULT NULL, the patient my come in and do an appointment that way
-Added a single char and a check to insure one is picked
-Assistant_Shift removed the NOT NULL, they might not me scheduled
-removed the `` at the begining and end of variable names
+## Project Version History
 
+### v0.001 — Changes
+- Changed `Medicine_Price` data type from `INT` to `FLOAT`.
+- Updated all `VARCHAR(50)` definitions for consistency.
+- Increased size of relevant text fields (e.g., notes, descriptions) from `VARCHAR(50)` to `VARCHAR(1000)`.
+- Changed `Patient_Sex` from `VARCHAR()` to `CHAR(1)` and added a `CHECK` constraint to ensure one value is picked.
+- Standardized all data type definitions to **uppercase** for consistency with examples.
+- Modified `Patient_Phone`:  
+  - Previously `NOT NULL` → now `DEFAULT NULL` (since a patient may come in without providing a phone number).
+- Modified `Assistant_Shift`:  
+  - Removed `NOT NULL` constraint (assistants may not always be scheduled).
+- Removed unnecessary backticks (\`\`) around variable names.
