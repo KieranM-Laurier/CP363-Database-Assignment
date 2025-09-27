@@ -3,131 +3,155 @@ CREATE DATABASE dental_clinic_dbms_a2;
 
 USE dental_clinic_dbms_a2;
 
-CREATE TABLE `dentist` (
-  `Dentist_ID` int NOT NULL,
-  `Dentist_Name` varchar(45) NOT NULL,
-  `Dentist_Specality` varchar(45) NOT NULL,
-  `Dentist_Phone` int NOT NULL,
-  `Dentist_Email` varchar(45) NOT NULL,
-  PRIMARY KEY (`Dentist_ID`),
-  UNIQUE KEY `Dentist_ID_UNIQUE` (`Dentist_ID`),
-  UNIQUE KEY `Dentist_Phone_UNIQUE` (`Dentist_Phone`),
-  UNIQUE KEY `Dentist_Email_UNIQUE` (`Dentist_Email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Dentist Entity';
+CREATE TABLE  dentist  (
+  Dentist_ID  				INT 			NOT NULL,
+  Dentist_Name  			VARCHAR(50) 	NOT NULL,
+  Dentist_Specality  		VARCHAR(255) 	NOT NULL,
+  Dentist_Phone  			INT 			NOT NULL,
+  Dentist_Email  			VARCHAR(50) 	NOT NULL,
+  PRIMARY KEY ( Dentist_ID ),
+  UNIQUE KEY  Dentist_ID_UNIQUE  ( Dentist_ID ),
+  UNIQUE KEY  Dentist_Phone_UNIQUE  ( Dentist_Phone ),
+  UNIQUE KEY  Dentist_Email_UNIQUE  ( Dentist_Email )
+);
 
-CREATE TABLE `insurance` (
-  `Insurance_ID` int NOT NULL,
-  `Insurance_Name` varchar(45) NOT NULL,
-  `Insurance_Plan` varchar(45) NOT NULL,
-  `Insurance_Coverage` varchar(45) NOT NULL,
-  PRIMARY KEY (`Insurance_ID`),
-  UNIQUE KEY `Insurance_ID_UNIQUE` (`Insurance_ID`),
-  UNIQUE KEY `Insurance_Name_UNIQUE` (`Insurance_Name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Insurance Entity';
+CREATE TABLE  insurance  (
+  Insurance_ID  			INT 			NOT NULL,
+  Insurance_Name  			VARCHAR(50) 	NOT NULL,
+  Insurance_Plan  			VARCHAR(255) 	NOT NULL,
+  Insurance_Coverage  		VARCHAR(255) 	NOT NULL,
+  PRIMARY KEY ( Insurance_ID ),
+  UNIQUE KEY  Insurance_ID_UNIQUE  ( Insurance_ID ),
+  UNIQUE KEY  Insurance_Name_UNIQUE  ( Insurance_Name )
+);
 
-CREATE TABLE `patient` (
-  `Patient_ID` int NOT NULL,
-  `Patient_Name` varchar(45) NOT NULL,
-  `Patient_DOB` date NOT NULL,
-  `Patient_Sex` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `Patient_Phone` int NOT NULL,
-  `Patient_Address` varchar(45) NOT NULL,
-  `Patient_Insurance_ID` int DEFAULT NULL,
-  PRIMARY KEY (`Patient_ID`),
-  UNIQUE KEY `Patient_ID_UNIQUE` (`Patient_ID`),
-  UNIQUE KEY `Patient_Phone_UNIQUE` (`Patient_Phone`),
-  UNIQUE KEY `Patient_Address_UNIQUE` (`Patient_Address`),
-  KEY `Patient_Insurance_ID` (`Patient_Insurance_ID`),
-  CONSTRAINT `Patient_Insurance_ID` FOREIGN KEY (`Patient_Insurance_ID`) REFERENCES `insurance` (`Insurance_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Patient Entity';
+CREATE TABLE  patient  (
+  Patient_ID  				INT 			NOT NULL,
+  Patient_Name  			VARCHAR(50) 	NOT NULL,
+  Patient_DOB  				DATE 			NOT NULL,
+  Patient_Sex  				CHAR(1) 		NOT NULL CHECK (Patient_Sex IN ('M', 'F')),
+  Patient_Phone  			INT 			DEFAULT NULL,
+  Patient_Address  			VARCHAR(255) 	NOT NULL,
+  Patient_Insurance_ID  	INT 			DEFAULT NULL,
+  PRIMARY KEY ( Patient_ID ),
+  UNIQUE KEY  Patient_ID_UNIQUE  ( Patient_ID ),
+  UNIQUE KEY  Patient_Phone_UNIQUE  ( Patient_Phone ),
+  UNIQUE KEY  Patient_Address_UNIQUE  ( Patient_Address ),
+  KEY  Patient_Insurance_ID  ( Patient_Insurance_ID ),
+  CONSTRAINT  Patient_Insurance_ID  
+	FOREIGN KEY ( Patient_Insurance_ID ) 
+    REFERENCES  insurance  ( Insurance_ID )
+);
 
-CREATE TABLE `dental_assistant` (
-  `Assistant_ID` int NOT NULL,
-  `Assistant_Name` varchar(45) NOT NULL,
-  `Assistant_Phone` int NOT NULL,
-  `Assistant_Shift` datetime NOT NULL,
-  `Assistant_Salary` int NOT NULL,
-  PRIMARY KEY (`Assistant_ID`),
-  UNIQUE KEY `Assistant_ID_UNIQUE` (`Assistant_ID`),
-  UNIQUE KEY `Assistant_Phone_UNIQUE` (`Assistant_Phone`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Dental Assistant Entity, added salary attribute';
+CREATE TABLE  dental_assistant  (
+  Assistant_ID  			INT 			NOT NULL,
+  Assistant_Name  			VARCHAR(50) 	NOT NULL,
+  Assistant_Phone  			INT 			NOT NULL,
+  Assistant_Shift  			DATETIME 		DEFAULT NULL,
+  Assistant_Salary  		INT 			NOT NULL,
+  PRIMARY KEY ( Assistant_ID ),
+  UNIQUE KEY  Assistant_ID_UNIQUE  ( Assistant_ID ),
+  UNIQUE KEY  Assistant_Phone_UNIQUE  ( Assistant_Phone )
+);
 
-CREATE TABLE `medicine` (
-  `Medicine_ID` int NOT NULL,
-  `Medicine_Name` varchar(45) NOT NULL,
-  `Medicine_Price` int NOT NULL,
-  PRIMARY KEY (`Medicine_ID`),
-  UNIQUE KEY `Medicine_ID_UNIQUE` (`Medicine_ID`),
-  UNIQUE KEY `Medicine_Name_UNIQUE` (`Medicine_Name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Medicine Entity';
+CREATE TABLE  medicine  (
+  Medicine_ID  				INT 			NOT NULL,
+  Medicine_Name  			VARCHAR(50) 	NOT NULL,
+  Medicine_Price  			DECIMAL(9,2) 	NOT NULL,
+  PRIMARY KEY ( Medicine_ID ),
+  UNIQUE KEY  Medicine_ID_UNIQUE  ( Medicine_ID ),
+  UNIQUE KEY  Medicine_Name_UNIQUE  ( Medicine_Name )
+);
 
-CREATE TABLE `prescription` (
-  `Prescription_ID` int NOT NULL,
-  `Dentist_Issuing_ID` int NOT NULL,
-  `Patient_Receiving_ID` int NOT NULL,
-  `Prescription_Dosage` int NOT NULL COMMENT 'Dosage in mg\n',
-  `Prescription_Date` date NOT NULL COMMENT 'Date prescrption issued by dentist',
-  PRIMARY KEY (`Prescription_ID`),
-  UNIQUE KEY `Prescription_ID_UNIQUE` (`Prescription_ID`),
-  UNIQUE KEY `Dentist_ID_UNIQUE` (`Dentist_Issuing_ID`),
-  UNIQUE KEY `Patient_ID_UNIQUE` (`Patient_Receiving_ID`),
-  CONSTRAINT `Dentist_Issuing_ID` FOREIGN KEY (`Dentist_Issuing_ID`) REFERENCES `dentist` (`Dentist_ID`),
-  CONSTRAINT `Patient_Receiving_ID` FOREIGN KEY (`Patient_Receiving_ID`) REFERENCES `patient` (`Patient_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Prescription Entity, removed appointment_id as we felt it unnecessary';
+CREATE TABLE  prescription  (
+  Prescription_ID  			INT 			NOT NULL,
+  Dentist_Issuing_ID  		INT 			NOT NULL,
+  Patient_Receiving_ID  	INT 			NOT NULL,
+  Prescription_Dosage  		INT 			NOT NULL COMMENT 'Dosage in mg\n',
+  Prescription_Date  		DATE 			NOT NULL COMMENT 'Date prescrption issued by dentist',
+  PRIMARY KEY ( Prescription_ID ),
+  UNIQUE KEY  Prescription_ID_UNIQUE  ( Prescription_ID ),
+  UNIQUE KEY  Dentist_ID_UNIQUE  ( Dentist_Issuing_ID ),
+  UNIQUE KEY  Patient_ID_UNIQUE  ( Patient_Receiving_ID ),
+  CONSTRAINT  Dentist_Issuing_ID  
+	FOREIGN KEY ( Dentist_Issuing_ID ) 
+    REFERENCES  dentist  ( Dentist_ID ),
+  CONSTRAINT  Patient_Receiving_ID  
+	FOREIGN KEY ( Patient_Receiving_ID ) 
+    REFERENCES  patient  ( Patient_ID )
+);
 
-CREATE TABLE `appointment` (
-  `Appointment_ID` int NOT NULL,
-  `Appointment_Date` datetime NOT NULL,
-  `Appointment_Status` tinyint NOT NULL,
-  `Appointment_Patient` int NOT NULL,
-  `Appointment_Dentist` int NOT NULL,
-  `Appointment_Type` varchar(45) NOT NULL,
-  PRIMARY KEY (`Appointment_ID`),
-  UNIQUE KEY `Appointment_ID_UNIQUE` (`Appointment_ID`),
-  UNIQUE KEY `Appointment_Patient_UNIQUE` (`Appointment_Patient`),
-  UNIQUE KEY `Appointment_Dentist_UNIQUE` (`Appointment_Dentist`),
-  CONSTRAINT `Appointment_Dentist` FOREIGN KEY (`Appointment_Dentist`) REFERENCES `dentist` (`Dentist_ID`),
-  CONSTRAINT `Appointment_Patient` FOREIGN KEY (`Appointment_Patient`) REFERENCES `patient` (`Patient_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Appointment Entity, date and time are now one attribute, status is either missed or there';
+CREATE TABLE  appointment  (
+  Appointment_ID  			INT 			NOT NULL,
+  Appointment_Date  		DATETIME 		NOT NULL,
+  Appointment_Status  		TINYINT 		NOT NULL,
+  Appointment_Patient  		INT 			NOT NULL,
+  Appointment_Dentist  		INT 			NOT NULL,
+  Appointment_Type  		VARCHAR(255) 	NOT NULL,
+  PRIMARY KEY ( Appointment_ID ),
+  UNIQUE KEY  Appointment_ID_UNIQUE  ( Appointment_ID ),
+  UNIQUE KEY  Appointment_Patient_UNIQUE  ( Appointment_Patient ),
+  UNIQUE KEY  Appointment_Dentist_UNIQUE  ( Appointment_Dentist ),
+  CONSTRAINT  Appointment_Dentist  
+	FOREIGN KEY ( Appointment_Dentist ) 
+    REFERENCES  dentist  ( Dentist_ID ),
+  CONSTRAINT  Appointment_Patient  
+	FOREIGN KEY ( Appointment_Patient ) 
+    REFERENCES  patient  ( Patient_ID )
+);
 
-CREATE TABLE `billing` (
-  `Bill_ID` int NOT NULL,
-  `Bill_Total` int NOT NULL,
-  `Bill_Status` tinyint NOT NULL COMMENT 'again cant make a boolean',
-  `Bill_Date` date NOT NULL,
-  `Appointment_Info` int NOT NULL,
-  PRIMARY KEY (`Bill_ID`),
-  UNIQUE KEY `Bill_ID_UNIQUE` (`Bill_ID`),
-  UNIQUE KEY `Appointment_Info_UNIQUE` (`Appointment_Info`),
-  KEY `Appointment_Info_idx` (`Appointment_Info`),
-  CONSTRAINT `Appointment_Info` FOREIGN KEY (`Appointment_Info`) REFERENCES `appointment` (`Appointment_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Billing Entity';
+CREATE TABLE  billing  (
+  Bill_ID  					INT 			NOT NULL,
+  Bill_Total  				DECIMAL(9,2) 	NOT NULL,
+  Bill_Status  				CHAR(1)			NOT NULL CHECK (Bill_Status IN ('Y', 'N')),
+  Bill_Date  				DATE 			NOT NULL,
+  Appointment_Info  		INT 			NOT NULL,
+  PRIMARY KEY ( Bill_ID ),
+  UNIQUE KEY  Bill_ID_UNIQUE  ( Bill_ID ),
+  UNIQUE KEY  Appointment_Info_UNIQUE  ( Appointment_Info ),
+  KEY  Appointment_Info_idx  ( Appointment_Info ),
+  CONSTRAINT  Appointment_Info  
+	FOREIGN KEY ( Appointment_Info ) 
+	REFERENCES  appointment  ( Appointment_ID )
+);
 
-CREATE TABLE `treatment` (
-  `Treatment_ID` int NOT NULL,
-  `Treatment_Name` varchar(45) NOT NULL,
-  `Treatment_Desc` varchar(45) NOT NULL,
-  `Treatment_Cost` int NOT NULL,
-  PRIMARY KEY (`Treatment_ID`),
-  UNIQUE KEY `Treatment_ID_UNIQUE` (`Treatment_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Treatment Entity';
+CREATE TABLE  treatment  (
+  Treatment_ID  			INT 			NOT NULL,
+  Treatment_Name  			VARCHAR(50) 	NOT NULL,
+  Treatment_Desc  			VARCHAR(50) 	NOT NULL,
+  Treatment_Cost  			INT 			NOT NULL,
+  PRIMARY KEY ( Treatment_ID ),
+  UNIQUE KEY  Treatment_ID_UNIQUE  ( Treatment_ID )
+);
 
-CREATE TABLE `treatment_records` (
-  `Record_ID` int NOT NULL,
-  `Appointment_Information` int NOT NULL,
-  `Treatment_Info` int NOT NULL,
-  `Treatment_Notes` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`Record_ID`),
-  UNIQUE KEY `Record_ID_UNIQUE` (`Record_ID`),
-  UNIQUE KEY `Appointment_Info_UNIQUE` (`Appointment_Information`),
-  UNIQUE KEY `Treatment_Info_UNIQUE` (`Treatment_Info`),
-  CONSTRAINT `Appointment_Information` FOREIGN KEY (`Appointment_Information`) REFERENCES `appointment` (`Appointment_ID`),
-  CONSTRAINT `Treatment_Info` FOREIGN KEY (`Treatment_Info`) REFERENCES `treatment` (`Treatment_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Treatment Records Entity';
+CREATE TABLE  treatment_records  (
+  Record_ID  				INT 			NOT NULL,
+  Appointment_Information  	INT 			NOT NULL,
+  Treatment_Info  			INT 			NOT NULL,
+  Treatment_Notes 			VARCHAR(1000) 	DEFAULT NULL,
+  PRIMARY KEY ( Record_ID ),
+  UNIQUE KEY  Record_ID_UNIQUE  ( Record_ID ),
+  UNIQUE KEY  Appointment_Info_UNIQUE  ( Appointment_Information ),
+  UNIQUE KEY  Treatment_Info_UNIQUE  ( Treatment_Info ),
+  CONSTRAINT  Appointment_Information  
+	FOREIGN KEY ( Appointment_Information ) 
+	REFERENCES  appointment  ( Appointment_ID ),
+  CONSTRAINT  Treatment_Info  
+	FOREIGN KEY ( Treatment_Info ) 
+	REFERENCES  treatment  ( Treatment_ID )
+);
 
-
-
-
-
+CREATE TABLE appointment_assistant (
+  Appointment_ID 			INT 			NOT NULL,
+  Assistant_ID   			INT 			NOT NULL,
+  Role         				VARCHAR(50) 	DEFAULT NULL, -- optional, e.g., "prep", "x-ray", etc.
+  PRIMARY KEY (Appointment_ID, Assistant_ID),
+  CONSTRAINT Appointment_ID
+    FOREIGN KEY (Appointment_ID)
+    REFERENCES appointment (Appointment_ID),
+  CONSTRAINT Assistant_ID
+    FOREIGN KEY (Assistant_ID)
+    REFERENCES dental_assistant (Assistant_ID)
+);
 
 
