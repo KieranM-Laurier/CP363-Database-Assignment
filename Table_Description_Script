@@ -1,0 +1,16 @@
+
+USE dental_clinic_dbms_a2;
+
+-- Run to have all table descriptions displayed
+-- still adding more
+
+ DESCRIBE appointment;
+ DESCRIBE billing;
+ DESCRIBE dental_assistant;
+ DESCRIBE dentist;
+ DESCRIBE insurance;
+ DESCRIBE medicine;
+ DESCRIBE patient;
+ DESCRIBE prescription;
+ DESCRIBE treatment;
+ DESCRIBE treatment_records;
