@@ -118,8 +118,8 @@ CREATE TABLE  billing  (
 CREATE TABLE  treatment  (
   Treatment_ID  			INT 			NOT NULL,
   Treatment_Name  			VARCHAR(50) 	NOT NULL,
-  Treatment_Desc  			VARCHAR(50) 	NOT NULL,
-  Treatment_Cost  			INT 			NOT NULL,
+  Treatment_Descripton  	VARCHAR(1000) 	NOT NULL,
+  Treatment_Cost  			DECIMAL(9,2)	NOT NULL,
   PRIMARY KEY ( Treatment_ID ),
   UNIQUE KEY  Treatment_ID_UNIQUE  ( Treatment_ID )
 );
@@ -153,5 +153,20 @@ CREATE TABLE appointment_assistant (
     FOREIGN KEY (Assistant_ID)
     REFERENCES dental_assistant (Assistant_ID)
 );
+
+CREATE TABLE prescription_medicine (
+  Prescription_ID 			INT 			NOT NULL,
+  Medicine_ID   			INT 			NOT NULL,
+  PRIMARY KEY (Prescription_ID, Medicine_ID),
+  CONSTRAINT Prescription_ID
+    FOREIGN KEY (Prescription_ID)
+    REFERENCES prescription (Prescription_ID),
+  CONSTRAINT Medicine_ID
+    FOREIGN KEY (Medicine_ID)
+    REFERENCES medicine (Medicine_ID)
+);
+
+
+
 
 
