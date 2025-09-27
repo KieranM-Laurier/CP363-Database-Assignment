@@ -1,7 +1,7 @@
 ## Project Version History
 
 ### v0.001 — Changes
-- Changed `Medicine_Price` data type from `INT` to `FLOAT`.
+- Changed `Medicine_Price` data type from `INT` to `DECIMAL`.
 - Updated all `VARCHAR(50)` definitions for consistency.
 - Increased size of relevant text fields (e.g., notes, descriptions) from `VARCHAR(50)` to `VARCHAR(1000)`.
 - Changed `Patient_Sex` from `VARCHAR()` to `CHAR(1)` and added a `CHECK` constraint to ensure one value is picked.
