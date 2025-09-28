@@ -106,13 +106,17 @@ CREATE TABLE  billing  (
   Bill_Status  				CHAR(1)			NOT NULL CHECK (Bill_Status IN ('Y', 'N')),
   Bill_Date  				DATE 			NOT NULL,
   Appointment_Info  		INT 			NOT NULL,
+  Patient_ID 				INT 			NOT NULL,
   PRIMARY KEY ( Bill_ID ),
   UNIQUE KEY  Bill_ID_UNIQUE  ( Bill_ID ),
   UNIQUE KEY  Appointment_Info_UNIQUE  ( Appointment_Info ),
   KEY  Appointment_Info_idx  ( Appointment_Info ),
   CONSTRAINT  Appointment_Info  
 	FOREIGN KEY ( Appointment_Info ) 
-	REFERENCES  appointment  ( Appointment_ID )
+	REFERENCES  appointment  ( Appointment_ID ),
+  CONSTRAINT  Patient_ID
+	FOREIGN KEY ( Patient_ID )
+    REFERENCES  patient  ( Patient_ID )
 );
 
 CREATE TABLE  treatment  (
