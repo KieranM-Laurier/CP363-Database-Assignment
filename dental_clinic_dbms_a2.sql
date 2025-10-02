@@ -7,7 +7,7 @@ CREATE TABLE  dentist  (
   Dentist_ID  				INT 			NOT NULL,
   Dentist_Name  			VARCHAR(50) 	NOT NULL,
   Dentist_Specality  		VARCHAR(255) 	NOT NULL,
-  Dentist_Phone  			INT 			NOT NULL,
+  Dentist_Phone  			VARCHAR(50) 	NOT NULL,
   Dentist_Email  			VARCHAR(50) 	NOT NULL,
   PRIMARY KEY ( Dentist_ID ),
   UNIQUE KEY  Dentist_ID_UNIQUE  ( Dentist_ID ),
@@ -30,7 +30,7 @@ CREATE TABLE  patient  (
   Patient_Name  			VARCHAR(50) 	NOT NULL,
   Patient_DOB  				DATE 			NOT NULL,
   Patient_Sex  				CHAR(1) 		NOT NULL CHECK (Patient_Sex IN ('M', 'F')),
-  Patient_Phone  			INT 			DEFAULT NULL,
+  Patient_Phone  			VARCHAR(50)		DEFAULT NULL,
   Patient_Address  			VARCHAR(255) 	NOT NULL,
   Patient_Insurance_ID  	INT 			DEFAULT NULL,
   PRIMARY KEY ( Patient_ID ),
@@ -46,7 +46,7 @@ CREATE TABLE  patient  (
 CREATE TABLE  dental_assistant  (
   Assistant_ID  			INT 			NOT NULL,
   Assistant_Name  			VARCHAR(50) 	NOT NULL,
-  Assistant_Phone  			INT 			NOT NULL,
+  Assistant_Phone  			VARCHAR(50) 	NOT NULL,
   Assistant_Shift  			DATETIME 		DEFAULT NULL,
   Assistant_Salary  		INT 			NOT NULL,
   PRIMARY KEY ( Assistant_ID ),
@@ -165,12 +165,10 @@ CREATE TABLE prescription_medicine (
   CONSTRAINT Prescription_ID
     FOREIGN KEY (Prescription_ID)
     REFERENCES prescription (Prescription_ID),
-  CONSTRAINT Medicine_ID
+  CONSTRAINT Medicine_IDAppointment_ID
     FOREIGN KEY (Medicine_ID)
     REFERENCES medicine (Medicine_ID)
 );
-
-
 
 INSERT INTO dentist VALUES
 (1, 'Dr. Smith Johnson', 'Orthodontist', '111-111-1111', 'smith.j@clinic.com'),
@@ -315,6 +313,4 @@ INSERT INTO prescription_medicine VALUES
 (8, 8),
 (9, 9),
 (10, 10);
-
-
 
