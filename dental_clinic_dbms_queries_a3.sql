@@ -162,6 +162,7 @@ WHERE
         SELECT MAX(Treatment_Cost) 
         FROM treatment
     );
+    
 -- Dental assistants whose salary are above average
 SELECT
 	da.Assistant_ID,
@@ -169,11 +170,11 @@ SELECT
     da.Assistant_Name
 FROM 
 	dental_assistant da
-WHERE 
-	aa.Assistant_Salary > (
+WHERE da.Assistant_Salary > (
 		SELECT
 			AVG(Assistant_Salary)
-		FROM dental_assistant
+		FROM 
+			dental_assistant
 	);
 
 -- patients who have not had an appointment in the last 6 months
@@ -203,7 +204,8 @@ FROM
 WHERE 
 	p.Patient_Insurance_ID IS NOT NULL
 ORDER BY
-	p.Patient_ID
+	p.Patient_ID;
+
 -- View 1: Total Revenue per Dentist
 CREATE VIEW Dentist_Revenue_View AS
 SELECT 
