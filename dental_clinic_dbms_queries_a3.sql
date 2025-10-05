@@ -1,6 +1,6 @@
-USE dental_clinic_dbms_a2;
+USE dental_clinic_dbms_a3;
 
--- patiendts that have not payed in over a week
+-- patiendts that have not paid in over a week
 SELECT 
     p.Patient_ID,
     p.Patient_Name,
@@ -143,7 +143,67 @@ JOIN
 JOIN 
 	dentist d ON a.Appointment_Dentist = d.Dentist_ID
 GROUP BY d.Dentist_Name;
+    
+-- patients who recieved the cheapest treatment 
+SELECT 
+    p.Patient_Name,
+    t.Treatment_Name,
+    t.Treatment_Cost
+FROM 
+    treatment_records tr
+JOIN 
+    appointment a ON tr.Appointment_Information = a.Appointment_ID
+JOIN 
+    patient p ON a.Appointment_Patient = p.Patient_ID
+JOIN 
+    treatment t ON tr.Treatment_Info = t.Treatment_ID
+WHERE 
+    t.Treatment_Cost = (
+        SELECT MAX(Treatment_Cost) 
+        FROM treatment
+    );
+-- Dental assistants whose salary are above average
+SELECT
+	da.Assistant_ID,
+	da.Assistant_Salary,
+    da.Assistant_Name
+FROM 
+	dental_assistant da
+WHERE 
+	aa.Assistant_Salary > (
+		SELECT
+			AVG(Assistant_Salary)
+		FROM dental_assistant
+	);
 
+-- patients who have not had an appointment in the last 6 months
+SELECT 
+    p.Patient_Name,
+    a.Appointment_Date,
+    a.Appointment_Type,
+    d.Dentist_Name
+FROM 
+    appointment a
+JOIN 
+    patient p ON a.Appointment_Patient = p.Patient_ID
+JOIN 
+    dentist d ON a.Appointment_Dentist = d.Dentist_ID
+WHERE 
+    a.Appointment_Date BETWEEN CURDATE() AND DATE_SUB(CURDATE(), INTERVAL 180 DAY)
+ORDER BY 
+    a.Appointment_Date ASC;
+
+-- patients with no health insurance
+SELECT
+	p.Patient_Name,
+	p.Patient_ID,
+    p.Patient_Insurance_ID
+FROM 
+	patient p
+WHERE 
+	p.Patient_Insurance_ID IS NOT NULL
+ORDER BY
+	p.Patient_ID
 -- View 1: Total Revenue per Dentist
 CREATE VIEW Dentist_Revenue_View AS
 SELECT 
@@ -195,17 +255,3 @@ WHERE
 	a.Appointment_Date >= CURDATE()
 ORDER BY 
 	a.Appointment_Date ASC;
-
--- this is for display purposes
-SELECT * FROM Dentist_Revenue_View;
-SELECT * FROM Patient_Billing_Summary;
-SELECT * FROM Upcoming_Appointments;
-    
-SELECT Appointment_Patient, Appointmnet_Date
-FROM appointment
-WHERE Appointment_Patient IN(
-	SELECT Patient_Insurance_ID
-    FROM patient
-    WHERE Patient_Insurance_ID IS NULL
-);
-ORDER BY Appointment_Date
