@@ -252,7 +252,8 @@ INSERT INTO appointment VALUES
 (NULL, '2025-04-20 15:00:00', 1, 7, 7, 'Implant'),
 (NULL, '2025-05-12 16:10:00', 1, 8, 8, 'Braces Consultation'),
 (NULL, '2025-09-22 17:25:00', 1, 9, 9, 'Crown Placement'),
-(NULL, '2025-10-01 08:50:00', 0, 10, 10, 'Routine Exam');
+(NULL, '2025-10-01 08:50:00', 0, 10, 10, 'Routine Exam'),
+(NULL, '2025-11-01 08:50:00', 0, 10, 10, 'Whitening');
 
 -- BILLING
 INSERT INTO billing VALUES

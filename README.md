@@ -36,3 +36,11 @@
 - Organized and formatted SQL file for professional presentation.
 
 ---
+
+### a3_v0.002 — Views, Subqueries, and Window Functions Added
+**Files Modified:** `dental_clinic_dbms_queries_a3.sql`
+- Added correlated and nested subqueries for advanced data analysis.
+- Implemented three views using DISTINCT, GROUP BY, ORDER BY, and calculated fields.
+- Introduced window functions (`RANK`, `ROW_NUMBER`) for ranking analysis.
+- Enhanced SQL file with consistent formatting and descriptive titles.
+
