@@ -11,3 +11,28 @@
 - Modified `Assistant_Shift`:  
   - Removed `NOT NULL` constraint (assistants may not always be scheduled).
 - Removed unnecessary backticks (\`\`) around variable names.
+
+---
+
+### a2_v0.002 — Data Insertion Updates and Schema Fixes
+**Files Modified:** `dental_clinic_dbms_a2.sql`
+- Updated all phone number columns (`Dentist_Phone`, `Patient_Phone`, `Assistant_Phone`) to `VARCHAR(50)` to allow flexible formats (e.g., "+1-519-555-1234").
+- Populated all tables with **10 sample records** each to enable testing of queries.
+- Fixed minor syntax issues in `FOREIGN KEY` constraints.
+- Verified all `INSERT` statements to ensure referential integrity across tables.
+
+---
+
+### a3_v0.001 — Query Design and Analytics Development
+**Files Modified:** `dental_clinic_dbms_queries_a3.sql`
+- Added **6 meaningful SQL queries** covering various operations:
+  - Selection with filtering and date comparisons.
+  - Aggregation and grouping (`SUM`, `COUNT`, `MAX`).
+  - Multiple table joins.
+  - Subquery usage to find highest treatment costs.
+- Each query is **clearly titled and commented** for readability and grading clarity.
+- Removed redundant or erroneous query (`Appointmnet_Date` typo) from earlier draft.
+- Ensured all queries are executable without syntax errors and compatible with current database schema.
+- Organized and formatted SQL file for professional presentation.
+
+---
