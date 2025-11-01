@@ -20,6 +20,26 @@ GROUP BY
 ORDER BY 
 	Total_Revenue DESC;
 
+-- Find total revenue generated each dentist based on completed appointments (optimized)
+SELECT 
+    d.Dentist_Name,
+    COUNT(b.Bill_ID) AS Total_Bills,
+    ROUND(SUM(b.Bill_Total), 2) AS Total_Revenue
+FROM 
+    billing AS b
+INNER JOIN 
+    appointment AS a 
+    ON b.Appointment_Info = a.Appointment_ID
+INNER JOIN 
+    dentist AS d 
+    ON a.Appointment_Dentist = d.Dentist_ID
+WHERE 
+    b.Bill_Status = 'Y'
+GROUP BY 
+    d.Dentist_ID, d.Dentist_Name
+ORDER BY 
+    Total_Revenue DESC;
+
 -- Compare total billed amount per patient, showing only those with insurance coverage
 SELECT 
     p.Patient_Name,
@@ -171,8 +191,33 @@ SELECT
 FROM 
 	dentist d;
 
--- FROM:
-
+-- FROM: Average billing and appointment count per dentist
+CREATE OR REPLACE VIEW avg_bill_app_count_per_dentist AS
+SELECT 
+    d.Dentist_Name,
+    perf.Total_Appointments,
+    perf.Avg_Bill_Amount
+FROM 
+    dentist d
+JOIN (
+    -- Subquery: compute total appointments and average billing per dentist
+    SELECT 
+        a.Appointment_Dentist AS Dentist_ID,
+        COUNT(a.Appointment_ID) AS Total_Appointments,
+        ROUND(AVG(b.Bill_Total), 2) AS Avg_Bill_Amount
+    FROM 
+        appointment a
+    JOIN 
+        billing b 
+        ON a.Appointment_ID = b.Appointment_Info
+    WHERE 
+        b.Bill_Status = 'Y'
+    GROUP BY 
+        a.Appointment_Dentist
+) AS perf
+    ON d.Dentist_ID = perf.Dentist_ID
+ORDER BY 
+    perf.Avg_Bill_Amount DESC;
 
 
 -- WHERE: Patients who spent more than the average bill amount across the entire clinic
@@ -197,7 +242,7 @@ GROUP BY
 
 -- Show all views
 SELECT * FROM dentist_performance;
--- SELECT * FROM xxxxxxxxxx
+SELECT * FROM avg_bill_app_count_per_dentist;
 SELECT * FROM v_high_spending_patients;
 
 
