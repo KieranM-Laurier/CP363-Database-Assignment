@@ -43,4 +43,4 @@
 - Implemented three views using DISTINCT, GROUP BY, ORDER BY, and calculated fields.
 - Introduced window functions (`RANK`, `ROW_NUMBER`) for ranking analysis.
 - Enhanced SQL file with consistent formatting and descriptive titles.
-
+a
