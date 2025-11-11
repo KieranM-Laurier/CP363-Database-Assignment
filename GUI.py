@@ -2,7 +2,7 @@
 -------------------------------------------------------
 [program description]
 -------------------------------------------------------
-Author:  Kieran Mochrie
+Author:  Kieran Mochrie, Andy Ferrer
 ID:      169048254
 Email:   moch8254@mylaurier.ca
 __updated__ = "2025-11-11"
@@ -16,14 +16,13 @@ import os
 import mysql.connector
 import re
 import sys
-# python C:\Users\kiera\eclipse2\ws\CP363Assgn6\src\GUI.py
 # Constants
 queries = "dental_clinic_dbms_queries_a4.sql"
 schema = "dental_clinic_dbms_a4.sql"
 # Configure these for your setup
 host = "localhost"
 user = "root"
-pWord = "Douggiemann05"   # change for uploaded verions
+pWord = "password"   # change for uploaded verions
 name = "dental_clinic_dbms_a4"
 userFriendly = {  # list of queries and the user friendly names
     "1": {
@@ -392,3 +391,4 @@ def main():
     # loop through options and stuff till user is done
 if __name__ == "__main__":
     main()
+
